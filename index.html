@@ -42,6 +42,10 @@
             </div>
             <div class="image-gif-widget">
                 <div class="gif-box" style="background-image: url('assets/profile/Reo GIF.gif');"></div>
+                <div class="thinking-bubble">
+                    <div class="bubble-tail"></div>
+                    <div class="bubble-text">"In order to Stand out, You have to be different from the rest"</div>
+                </div>
             </div>
         </div>
 
@@ -116,9 +120,6 @@
                     <h3 class="recently-played-title">
                         <i class="fab fa-spotify" style="color:#1DB954;"></i> recently played
                     </h3>
-                    <div class="recently-played-actions">
-                        <button id="clearRecentBtn" class="clear-recent-btn" title="clear history"><i class="fas fa-trash-alt"></i></button>
-                    </div>
                 </div>
                 <div class="recently-played" id="recentlyPlayedContainer"></div>
                 <div id="recentlyPlayedJsonContainer" class="recently-played-json" style="display:none;"></div>
@@ -130,19 +131,6 @@
         <!-- journal section -->
         <div id="journal-section" class="section-card">
             <div class="section-title"><i class="fas fa-feather-alt"></i> journal</div>
-            <div class="journal-form-card">
-                <textarea id="journalEntryInput" class="journal-textarea" placeholder="what's on your mind today? ✨" rows="3"></textarea>
-                <div class="journal-form-attachment">
-                    <label class="journal-attach-label">
-                        <i class="fas fa-image"></i> add image
-                        <input type="file" id="journalImageInput" accept="image/*" hidden>
-                    </label>
-                    <span id="journalFileName" class="journal-file-name"></span>
-                </div>
-                <div class="journal-form-footer">
-                    <button id="journalSubmitBtn" class="journal-submit-btn"><i class="fas fa-pen-fancy"></i> write</button>
-                </div>
-            </div>
             <div id="journalEntriesContainer" class="journal-entries"></div>
         </div>
 

@@ -4,6 +4,7 @@ const sections = {
     projects: document.getElementById("projects-section"),
     friends: document.getElementById("friends-section"),
     music: document.getElementById("music-section"),
+    journal: document.getElementById("journal-section"),
     github: document.getElementById("github-section")
 };
 

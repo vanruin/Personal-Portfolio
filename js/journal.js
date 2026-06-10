@@ -39,105 +39,24 @@ function renderJournalEntries() {
             }
         }
 
+        const titleHtml = entry.title
+            ? `<div style="font-weight:600;font-size:1rem;color:#3d2c21;margin-bottom:0.3rem;">${escapeHtml(entry.title)}</div>`
+            : '';
+
         return `
             <div class="journal-entry" data-key="${entry.fbKey || ''}">
                 <div class="journal-entry-header">
                     <span class="journal-entry-date">${formattedDate}</span>
-                    <button class="journal-delete-btn" data-key="${entry.fbKey || ''}" title="delete entry">
-                        <i class="fas fa-times"></i>
-                    </button>
                 </div>
+                ${titleHtml}
                 <div class="journal-entry-text">${linkedText}</div>
                 ${mediaHtml}
             </div>
         `;
     }).join('');
-
-    // Attach delete handlers
-    container.querySelectorAll('.journal-delete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const key = this.getAttribute('data-key');
-            if (key && confirm('delete this entry?')) {
-                window.deleteJournalEntryFromFirebase(key);
-            }
-        });
-    });
-}
-
-// ─── File upload helper ───
-async function uploadJournalImage(file) {
-    if (!file) return { url: '', mediaType: '' };
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'journal');
-
-    try {
-        const res = await fetch('/api/upload', { method: 'POST', body: formData });
-        if (!res.ok) throw new Error('Upload failed');
-        const data = await res.json();
-        return { url: data.url, mediaType: data.type };
-    } catch (err) {
-        console.error('Upload error:', err);
-        return { url: '', mediaType: '' };
-    }
-}
-
-function setupJournalForm() {
-    const textarea = document.getElementById("journalEntryInput");
-    const submitBtn = document.getElementById("journalSubmitBtn");
-    const imageInput = document.getElementById("journalImageInput");
-    const fileNameSpan = document.getElementById("journalFileName");
-
-    if (!textarea || !submitBtn) return;
-
-    // Show selected file name
-    imageInput?.addEventListener("change", function() {
-        if (this.files[0]) {
-            fileNameSpan.textContent = '📎 ' + this.files[0].name;
-        } else {
-            fileNameSpan.textContent = '';
-        }
-    });
-
-    const submit = async function() {
-        const text = textarea.value.trim();
-        if (!text && (!imageInput || !imageInput.files[0])) return;
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> saving...';
-
-        // Upload image if selected
-        let mediaUrl = '', mediaType = '';
-        if (imageInput && imageInput.files[0]) {
-            const result = await uploadJournalImage(imageInput.files[0]);
-            mediaUrl = result.url;
-            mediaType = result.mediaType;
-        }
-
-        window.saveJournalEntryToFirebase(text, mediaUrl, mediaType);
-        textarea.value = '';
-        if (imageInput) imageInput.value = '';
-        if (fileNameSpan) fileNameSpan.textContent = '';
-        textarea.focus();
-
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-pen-fancy"></i> write';
-    };
-
-    submitBtn.addEventListener("click", submit);
-
-    textarea.addEventListener("keydown", function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            e.preventDefault();
-            submit();
-        }
-    });
 }
 
 function initJournal() {
-    setupJournalForm();
-
     if (window.loadJournalFromFirebase) {
         window.loadJournalFromFirebase((entries) => {
             journalEntries = entries || [];

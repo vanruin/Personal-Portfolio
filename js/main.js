@@ -140,16 +140,6 @@ function getTimeAgo(timestamp) {
 // Expose for spotify.js to call after each fetch
 window.renderRecentSpotify = renderRecentSpotify;
 
-// Clear recently played button
-(function setupClearButton() {
-    const clearBtn = document.getElementById("clearRecentBtn");
-    if (clearBtn && window.clearRecentlyPlayed) {
-        clearBtn.addEventListener("click", function() {
-            window.clearRecentlyPlayed();
-        });
-    }
-})();
-
 // Initial render
 (async function init() {
     // Try to load from server first

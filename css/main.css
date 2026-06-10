@@ -1,3 +1,4 @@
+/* main.css - Fixed overlapping thought bubble */
 * {
     margin: 0;
     padding: 0;
@@ -134,6 +135,7 @@ body::before {
     box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     transition: transform 0.2s ease;
     border: 1px solid rgba(255, 255, 255, 0.4);
+    position: relative; /* Needed for absolute positioning of bubble */
 }
 
 .image-gif-widget:hover {
@@ -173,6 +175,163 @@ body::before {
     font-size: 0.7rem;
     text-align: center;
     color: #9b7f6b;
+}
+
+/* ─── Thought cloud bubble - FIXED POSITIONING ─── */
+/* ─── Thought cloud bubble - LEFT SIDE (no overlap) ─── */
+.image-gif-widget {
+    position: relative; /* CRITICAL: bubble now anchors to this widget */
+    margin-left: 180px; /* Reserve space for the bubble on the left side */
+}
+
+.thinking-bubble {
+    position: absolute;
+    right: 100%;        /* Place directly to the LEFT of the GIF widget */
+    top: 20px;          /* Align with top portion of widget */
+    background: #fff;
+    border: 2.5px solid #2c2c2c;
+    border-radius: 30px 30px 12px 30px; /* Rounded bubble shape (mirrored) */
+    padding: 0.7rem 0.9rem;
+    width: 170px;
+    box-shadow: -4px 4px 0 #2c2c2c; /* Shadow on left side instead */
+    z-index: 10;
+    margin-right: 12px; /* Small gap between widget and bubble */
+}
+
+/* speech bubble tail - points RIGHT toward the GIF widget */
+.thinking-bubble::before {
+    content: '';
+    position: absolute;
+    right: -16px;       /* Points right toward widget */
+    top: 30px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border: 2.5px solid #2c2c2c;
+    border-radius: 50%;
+    border-left: none;
+    border-top: none;
+    z-index: -1;
+}
+
+.thinking-bubble::after {
+    content: '';
+    position: absolute;
+    right: -26px;       /* Points right toward widget */
+    top: 18px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border: 2.5px solid #2c2c2c;
+    border-radius: 50%;
+    border-left: none;
+    border-top: none;
+    z-index: -1;
+}
+
+.bubble-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    font-weight: 600;
+    color: #2c2c2c;
+    line-height: 1.35;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* Responsive: On smaller screens, move bubble below the widget */
+@media (max-width: 800px) {
+    .image-gif-widget {
+        margin-left: 0; /* Remove left margin on mobile */
+    }
+    
+    .thinking-bubble {
+        position: absolute;
+        left: 50%;
+        right: auto;
+        top: calc(100% + 12px);
+        transform: translateX(-50%);
+        width: 200px;
+        margin-right: 0;
+        border-radius: 30px 30px 30px 12px;
+        box-shadow: 4px 4px 0 #2c2c2c;
+    }
+    
+    .thinking-bubble::before {
+        right: auto;
+        left: 20px;
+        top: -16px;
+        border: 2.5px solid #2c2c2c;
+        border-radius: 50%;
+        border-bottom: none;
+        border-right: none;
+    }
+    
+    .thinking-bubble::after {
+        right: auto;
+        left: 10px;
+        top: -26px;
+        border: 2.5px solid #2c2c2c;
+        border-radius: 50%;
+        border-bottom: none;
+        border-right: none;
+    }
+}
+
+.bubble-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    font-weight: 600;
+    color: #2c2c2c;
+    line-height: 1.35;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* Responsive: On smaller screens, move bubble below widget */
+@media (max-width: 700px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .image-gif-widget {
+        align-self: center;
+        margin-top: 0.5rem;
+    }
+    
+    .thinking-bubble {
+        position: absolute;
+        left: auto;
+        right: auto;
+        top: calc(100% + 12px); /* Below the widget */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        border-radius: 30px 30px 30px 12px;
+    }
+    
+    .thinking-bubble::before {
+        left: 20px;
+        top: -16px;
+        bottom: auto;
+        border: 2.5px solid #2c2c2c;
+        border-radius: 50%;
+        border-bottom: none;
+        border-right: none;
+    }
+    
+    .thinking-bubble::after {
+        left: 10px;
+        top: -26px;
+        bottom: auto;
+        border: 2.5px solid #2c2c2c;
+        border-radius: 50%;
+        border-bottom: none;
+        border-right: none;
+    }
 }
 
 /* navigation */
