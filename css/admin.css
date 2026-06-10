@@ -1,0 +1,434 @@
+/* admin.css — anime-themed admin panel */
+/* keep all existing html classes, just pure styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #f7ede4 0%, #f0e0d4 100%);
+    font-family: 'Inter', sans-serif;
+    padding: 2rem 1.5rem;
+    color: #2b211c;
+    min-height: 100vh;
+}
+
+.admin-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: #fffef8;
+    border-radius: 2rem;
+    box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border: 1px solid rgba(255,235,215,0.8);
+}
+
+/* Header */
+.admin-header {
+    background: linear-gradient(135deg, #2b211c, #5a3f30);
+    padding: 2rem 2rem 1.5rem;
+    color: white;
+    border-bottom: 4px solid #e7bc9e;
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-header h1 i {
+    color: #f3c8a5;
+}
+
+.admin-header p {
+    margin-top: 0.5rem;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+/* Tabs */
+.admin-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1.2rem 2rem 0 2rem;
+    background: #fffcf7;
+    border-bottom: 1px solid #f0e2d6;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #7a5a48;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+.tab-btn i {
+    font-size: 0.9rem;
+}
+
+.tab-btn:hover {
+    background: #f3e7df;
+    color: #4f3527;
+    transform: translateY(-1px);
+}
+
+.tab-btn.active {
+    background: #e7d5c8;
+    color: #3e2a1f;
+    box-shadow: inset 0 -1px 0 #c9aa8d;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    padding: 2rem;
+    animation: fadeIn 0.25s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Forms */
+.add-form {
+    background: #fefaf5;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #f3e5db;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.add-form h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #5e3f2e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #f0ded2;
+    border-radius: 1rem;
+    background: white;
+    font-family: 'Inter', sans-serif;
+    transition: 0.2s;
+    font-size: 0.9rem;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #dbb58f;
+    box-shadow: 0 0 0 3px rgba(219,181,143,0.2);
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background: #e3cfbf;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #2f241f;
+    font-size: 0.9rem;
+}
+
+button:hover {
+    background: #d4bbaa;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.settings-btn {
+    background: #f2e4da;
+    margin-right: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.settings-btn.danger {
+    background: #f3cfc0;
+    color: #a14424;
+}
+
+.settings-btn.danger:hover {
+    background: #ecb69e;
+}
+
+/* Upload field */
+.upload-field {
+    margin-bottom: 1rem;
+}
+
+.upload-label {
+    display: inline-block;
+    background: #efe2d8;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.upload-label:hover {
+    background: #e5d4c7;
+}
+
+.media-preview {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.media-preview img, .media-preview video {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid #eddacb;
+}
+
+/* Items Grid */
+.items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.item-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #f2e2d6;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    position: relative;
+}
+
+.item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
+    border-color: #e7cfbf;
+}
+
+.item-card img, .item-card video {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-bottom: 0.6rem;
+}
+
+.item-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: space-between;
+}
+
+.item-desc {
+    font-size: 0.8rem;
+    color: #7e6251;
+    margin: 0.4rem 0;
+    line-height: 1.4;
+}
+
+.delete-item {
+    background: none;
+    color: #ca947a;
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2rem;
+}
+
+.delete-item:hover {
+    background: #f9e0d4;
+    color: #b65a31;
+    transform: none;
+}
+
+/* Settings card */
+.settings-card {
+    background: #fefaf5;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f3e5db;
+}
+
+.settings-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+    color: #5e3f2e;
+}
+
+.settings-card p {
+    color: #7a5a48;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+}
+
+.settings-card a {
+    color: #bf8563;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.settings-card a:hover {
+    text-decoration: underline;
+}
+
+/* Utility */
+.danger {
+    background: #f3cfc0;
+    color: #a14424;
+}
+
+hr {
+    margin: 0.8rem 0;
+    border: none;
+    height: 1px;
+    background: #f0e2d6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .admin-container {
+        border-radius: 1.5rem;
+    }
+    
+    .admin-header {
+        padding: 1.5rem;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .admin-tabs {
+        padding: 1rem;
+        gap: 0.4rem;
+    }
+    
+    .tab-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .tab-content {
+        padding: 1.5rem;
+    }
+    
+    .add-form {
+        padding: 1rem;
+    }
+    
+    .items-list {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .settings-btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .admin-header p {
+        font-size: 0.75rem;
+    }
+    
+    .tab-btn {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+    }
+    
+    button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .item-title {
+        font-size: 1rem;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0e2d6;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c9aa8d;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b58f6e;
+}

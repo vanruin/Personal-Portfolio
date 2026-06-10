@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Jovan ✦ dev portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Sakura Petals Effect -->
+    <link rel="stylesheet" href="css/sakura.css">
+    
+</head>
+<body>
+
+    <div class="container">
+        <!-- floating decor -->
+        <div class="floating-icon" style="top: 20px; left: 15px;">✧</div>
+        <div class="floating-icon" style="bottom: 20px; right: 20px;">✦</div>
+
+        <!-- hero section -->
+        <div class="hero">
+            <div class="intro">
+                <h1>hi, i'm Jovan!</h1>
+                <div class="badge-line">
+                    <span class="badge"><i class="fas fa-graduation-cap"></i> 3rd year CS</span>
+                    <span class="badge"><i class="fas fa-university"></i> UM Tagum</span>
+                    <span class="badge"><i class="fas fa-code"></i> TypeScript · React</span>
+                    <span class="badge"><i class="fas fa-robot"></i> automation</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i> github</a>
+                    <a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
+                    <a href="#"><i class="fab fa-facebook"></i> facebook</a>
+                    <a href="#"><i class="fab fa-telegram"></i> telegram</a>
+                </div>
+            </div>
+            <div class="image-gif-widget">
+                <div class="gif-box" style="background-image: url('assets/profile/Reo GIF.gif');"></div>
+            </div>
+        </div>
+
+        <!-- navigation -->
+        <div class="nav-links" id="navLinks">
+            <span data-section="home" class="active">🏠 home</span>
+            <span data-section="projects">📁 projects</span>
+            <span data-section="friends">👯 best friends</span>
+            <span data-section="music">🎵 music & favs</span>
+            <span data-section="journal">📝 journal</span>
+            <span data-section="github">💻 github</span>
+        </div>
+
+        <!-- home section -->
+        <div id="home-section" class="section-card active-section">
+            <div class="bio-text">
+                <p><strong>👋 about me . . .</strong> Currently a 3rd year Computer Science student at the University of Mindanao (Tagum Branch). I really like cats and dogs 🐱🐶. I mostly code in TypeScript and ReactJS. What I really enjoy doing is creating automations, auto bots for Facebook, Telegram, and other platforms. I also have a passion for web scraping.</p>
+            </div>
+            <div class="activity-grid">
+                <div class="widget-card discord-card">
+                    <div class="widget-gif-top" style="background-image: url('assets/widgets/Penguin Disco GIF by Pudgy Penguins.gif');"></div>
+                    <div class="widget-content">
+                        <div class="widget-title"><i class="fab fa-discord"></i> discord status</div>
+                        <div class="discord-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text"><span id="discordUser">Scythe</span> · <span id="discordStatusText">🟢 online</span></div>
+                        </div>
+                        <div class="marquee-effect"><i class="fas fa-code"></i> <span id="discordGame">—</span></div>
+                    </div>
+                </div>
+                <div class="widget-card spotify-card">
+                    <div class="widget-gif-top" style="background-image: url('assets/widgets/Spotify Jamming GIF by SpongeBob SquarePants.gif');"></div>
+                    <div class="widget-content">
+                        <div class="widget-title"><i class="fab fa-spotify"></i> spotify activity <button class="refresh-spotify" id="refreshSpotifyBtn"><i class="fas fa-sync-alt"></i></button></div>
+                        <div class="spotify-activity">
+                            <div class="spotify-icon"><i class="fab fa-spotify"></i></div>
+                            <div class="track-info">
+                                <p class="track-name" id="spotifyTrack">not listening</p>
+                                <p id="spotifyArtist">—</p>
+                                <p id="spotifyStatusMessage">💤 nothing playing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="two-columns">
+                <div><h3><i class="fas fa-heart"></i> loves . . .</h3><p>Cats, dogs, coding, automation, scraping, coffee</p><div class="badge-container"><span class="badge">🐱 cats</span><span class="badge">� dogs</span><span class="badge">☕ coffee</span><span class="badge">🤖 bots</span></div></div>
+                <div><h3><i class="fas fa-moon"></i> hates . . .</h3><p>Slow internet, messy code, broken scrapers, bugs</p><div class="badge-container"><span class="badge">🐌 slow net</span><span class="badge">❗ messy code</span><span class="badge">🐛 bugs</span><span class="badge">💔 broken scrapers</span></div></div>
+            </div>
+        </div>
+
+        <!-- projects section -->
+        <div id="projects-section" class="section-card">
+            <div class="section-title"><i class="fas fa-folder-open"></i> creative projects</div>
+            <div id="projectsContainer" class="projects-grid"></div>
+        </div>
+
+        <!-- friends section -->
+        <div id="friends-section" class="section-card">
+            <div class="section-title"><i class="fas fa-star-of-life"></i> besties & mutuals</div>
+            <div id="friendsContainer" class="friends-grid"></div>
+        </div>
+
+        <!-- music section -->
+        <div id="music-section" class="section-card">
+            <div class="section-title"><i class="fas fa-headphones"></i> ear candy</div>
+            <div class="playlist" id="playlistContainer"></div>
+
+            <!-- recently played spotify -->
+            <div style="margin-top:1.5rem;">
+                <div class="recently-played-header">
+                    <h3 class="recently-played-title">
+                        <i class="fab fa-spotify" style="color:#1DB954;"></i> recently played
+                    </h3>
+                    <div class="recently-played-actions">
+                        <button id="clearRecentBtn" class="clear-recent-btn" title="clear history"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                <div class="recently-played" id="recentlyPlayedContainer"></div>
+                <div id="recentlyPlayedJsonContainer" class="recently-played-json" style="display:none;"></div>
+            </div>
+
+            <div style="margin-top:1.5rem;"><h3>📺 anime list</h3><div class="anime-list" id="animeContainer"></div></div>
+        </div>
+
+        <!-- journal section -->
+        <div id="journal-section" class="section-card">
+            <div class="section-title"><i class="fas fa-feather-alt"></i> journal</div>
+            <div class="journal-form-card">
+                <textarea id="journalEntryInput" class="journal-textarea" placeholder="what's on your mind today? ✨" rows="3"></textarea>
+                <div class="journal-form-attachment">
+                    <label class="journal-attach-label">
+                        <i class="fas fa-image"></i> add image
+                        <input type="file" id="journalImageInput" accept="image/*" hidden>
+                    </label>
+                    <span id="journalFileName" class="journal-file-name"></span>
+                </div>
+                <div class="journal-form-footer">
+                    <button id="journalSubmitBtn" class="journal-submit-btn"><i class="fas fa-pen-fancy"></i> write</button>
+                </div>
+            </div>
+            <div id="journalEntriesContainer" class="journal-entries"></div>
+        </div>
+
+        <!-- github section -->
+        <div id="github-section" class="section-card">
+            <div class="section-title"><i class="fab fa-github"></i> github activity</div>
+            <div class="gh-liked-wrap">
+                <div id="githubProfile" class="gh-profile-card"></div>
+                <div id="githubCommits" class="gh-commits-card"></div>
+                <div id="githubContributions" class="gh-contrib-card"></div>
+            </div>
+        </div>
+
+        <div class="ending-note">✦ Jovan — he/him · pinoy · 22 ✦</div>
+    </div>
+
+    <!-- scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/firebase-data.js"></script>
+    <script src="js/spotify.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/journal.js"></script>
+    <script src="js/github.js"></script>
+    <!-- Sakura Petals -->
+    <script src="js/sakura.js"></script>
+</body>
+</html>

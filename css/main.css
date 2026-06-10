@@ -1,0 +1,1205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #faf7f2;
+    font-family: 'Inter', sans-serif;
+    color: #1e1b1b;
+    line-height: 1.5;
+    padding: 2rem 1.5rem;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/background/cherry blossoms sakura GIF.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 2rem;
+    box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    padding: 2rem 2rem 2.8rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* hero section */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 1.8rem;
+}
+
+.intro h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #2c2c2c, #9b6e53);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+}
+
+.badge-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0.75rem 0 0.5rem;
+}
+
+.badge {
+    background: #f3efe9;
+    padding: 0.3rem 0.9rem;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #4e3e36;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    background: #e8e0d7;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #6b4e3a;
+    background: #f5efe9;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.social-links a:hover {
+    background: #e2d6cd;
+    color: #2d241f;
+    transform: translateY(-2px);
+}
+
+/* gif widget */
+.image-gif-widget {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.8rem;
+    padding: 0.8rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.image-gif-widget:hover {
+    transform: scale(1.02);
+}
+
+.gif-box {
+    background: #e7dbcf;
+    border-radius: 1.4rem;
+    min-height: 130px;
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,240,0.6);
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2ZleHozNXN0NnlidG40dDJnZzFmYmFsNXM5eGQyZGk2OHd1M2hzeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gR2zNlpBkH8dR1m/giphy.gif');
+}
+
+.gif-box .gif-overlay {
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.gif-caption {
+    margin-top: 8px;
+    font-size: 0.7rem;
+    text-align: center;
+    color: #9b7f6b;
+}
+
+/* navigation */
+.nav-links {
+    display: flex;
+    gap: 1.8rem;
+    margin: 1.2rem 0 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 0.6rem;
+}
+
+.nav-links span {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #352d28;
+    cursor: pointer;
+    transition: 0.1s;
+    padding-bottom: 4px;
+}
+
+.nav-links span.active {
+    border-bottom: 2px solid #c0a68b;
+}
+
+.nav-links span:hover {
+    color: #9b6e53;
+}
+
+/* sections */
+.section-card {
+    margin-top: 1.5rem;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.section-card.active-section {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 1.2rem;
+    display: inline-block;
+    border-left: 5px solid #dbbd9f;
+    padding-left: 0.8rem;
+}
+
+.bio-text {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1rem 1.2rem;
+    border-radius: 1.5rem;
+    margin-bottom: 1.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #3f332c;
+}
+
+/* grids */
+.two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.2s;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(214, 193, 174, 0.6);
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.project-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #5e4333;
+    margin-bottom: 0.5rem;
+}
+
+.project-desc {
+    font-size: 0.85rem;
+    color: #6f5543;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.project-tags span {
+    background: #f1e9e2;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+}
+
+/* ─── Project link button ─── */
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    background: #cbb294;
+    color: #fff;
+    padding: 0.3rem 0.9rem;
+    border-radius: 30px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.project-link-btn:hover {
+    background: #ba9f84;
+    transform: translateY(-1px);
+}
+
+/* friends grid */
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.friend-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.2s;
+}
+
+.friend-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.friend-avatar {
+    width: 70px;
+    height: 70px;
+    background: #e6d9cf;
+    border-radius: 100%;
+    margin: 0 auto 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: linear-gradient(145deg, #f3e9e1, #e5d6ca);
+}
+
+.friend-name {
+    font-weight: 700;
+    color: #5e4333;
+    margin-bottom: 0.2rem;
+}
+
+.friend-desc {
+    font-size: 0.75rem;
+    color: #8f735f;
+}
+
+/* playlist & anime */
+.playlist {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.4rem;
+    padding: 1.2rem 1.5rem;
+    margin-top: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.playlist-item {
+    font-family: monospace;
+    font-size: 0.95rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed rgba(226, 213, 202, 0.6);
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.playlist-item:last-child {
+    border-bottom: none;
+}
+
+.anime-list {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.4rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.anime-list-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.anime-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+    padding: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    min-width: 100px;
+    max-width: 140px;
+    font-size: 0.8rem;
+    text-align: center;
+    color: #3d2c21;
+}
+
+.anime-item-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    background: #e6d9cf;
+}
+
+.anime-item span {
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 1.2;
+}
+
+/* widgets */
+.activity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 1.2rem 0;
+}
+
+.widget-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: transform 0.2s;
+}
+
+.widget-card:hover {
+    transform: translateY(-3px);
+}
+
+.widget-gif-top {
+    width: 100%;
+    height: 130px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.widget-content {
+    padding: 0.9rem 1rem 1rem;
+}
+
+.widget-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    color: #5f4536;
+}
+
+.discord-card, .spotify-card {
+    overflow: hidden;
+}
+
+.discord-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #23a55a;
+    box-shadow: 0 0 0 2px #e1d9d0;
+    flex-shrink: 0;
+}
+
+.spotify-activity {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.spotify-icon {
+    font-size: 1.6rem;
+    color: #1DB954;
+    flex-shrink: 0;
+}
+
+.track-name {
+    font-weight: 700;
+    color: #2b1f18;
+}
+
+.ending-note {
+    margin-top: 2rem;
+    border-top: 1px solid #f0e8e1;
+    padding-top: 1.3rem;
+    font-size: 0.85rem;
+    color: #9b7e6b;
+    text-align: center;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.refresh-spotify {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #c2a689;
+    margin-left: 6px;
+    font-size: 0.7rem;
+}
+
+.marquee-effect {
+    font-size: 0.7rem;
+    color: #8f735f;
+    margin-top: 8px;
+}
+
+/* ─── Recently played spotify ─── */
+.recently-played {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.4rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.recent-track {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(226, 213, 202, 0.5);
+}
+
+.recent-track:last-child {
+    border-bottom: none;
+}
+
+.recent-album-art {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.6rem;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #e6d9cf;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.recent-album-art-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1DB954;
+    font-size: 1.1rem;
+    background: #eaf7e8;
+}
+
+.recent-track-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.recent-track-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #3d2c21;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recent-track-artist {
+    font-size: 0.75rem;
+    color: #8f735f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recent-track-time {
+    font-size: 0.65rem;
+    color: #a08672;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* ─── Liked section ─── */
+.gh-liked-wrap {
+    text-align: center;
+}
+
+.gh-liked-wrap > div {
+    text-align: left;
+}
+
+/* ─── GitHub ─── */
+
+.github-section {
+    margin-top: 1.8rem;
+}
+
+/* Profile card — inline, shrinkwraps content */
+.gh-profile-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0.8rem 1.2rem;
+    display: inline-block;
+    margin: 0 auto 1rem;
+}
+
+.gh-profile-card .github-profile-link {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.gh-profile-card .github-profile-link:hover {
+    opacity: 0.8;
+}
+
+.gh-profile-card .github-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #e2d0be;
+    flex-shrink: 0;
+}
+
+.gh-profile-card .github-username {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #3d2c21;
+}
+
+.gh-profile-card .github-handle {
+    font-size: 0.78rem;
+    color: #8f735f;
+}
+
+.gh-profile-card .github-stats {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 0.25rem;
+    font-size: 0.72rem;
+    color: #7a6250;
+}
+
+.gh-profile-card .github-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Commits card — 2/3 width, centered */
+.gh-commits-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0.9rem 1.2rem;
+    max-width: 560px;
+    margin: 0 auto 1rem;
+}
+
+.gh-commits-card .gh-card-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #5f4536;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gh-commits-card .gh-commits-inner {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.gh-commits-card .commit-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(226, 213, 202, 0.35);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+}
+
+.gh-commits-card .commit-item:last-child {
+    border-bottom: none;
+}
+
+.gh-commits-card .commit-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 -0.3rem;
+    padding: 0.35rem 0.3rem;
+    border-radius: 0.5rem;
+}
+
+.gh-commits-card .commit-icon {
+    color: #c0a68b;
+    font-size: 0.7rem;
+    padding-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.gh-commits-card .commit-body {
+    min-width: 0;
+    flex: 1;
+}
+
+.gh-commits-card .commit-msg {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #3d2c21;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gh-commits-card .commit-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.1rem;
+    font-size: 0.66rem;
+    color: #9a7f6b;
+}
+
+.gh-commits-card .commit-repo {
+    font-weight: 500;
+}
+
+/* Contribution card — inline, fits content */
+.gh-contrib-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0.9rem 1.2rem;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.gh-contrib-card .gh-card-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #5f4536;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gh-contrib-card .gh-contrib-header {
+    display: flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.gh-contrib-card .contrib-count {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #3d2c21;
+}
+
+.gh-contrib-card .contrib-label {
+    font-size: 0.7rem;
+    color: #9a7f6b;
+}
+
+.gh-contrib-card .contrib-grid {
+    display: flex;
+    gap: 2px;
+    align-items: flex-start;
+}
+
+.gh-contrib-card .contrib-day-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-right: 3px;
+}
+
+.gh-contrib-card .contrib-day-label {
+    font-size: 0.52rem;
+    color: #9a7f6b;
+    height: 11px;
+    line-height: 11px;
+}
+
+.gh-contrib-card .contrib-weeks {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.gh-contrib-card .contrib-week {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gh-contrib-card .contrib-day {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.03);
+    flex-shrink: 0;
+    cursor: default;
+}
+
+.gh-contrib-card .contrib-0 { background: #ebedf0; }
+.gh-contrib-card .contrib-1 { background: #9be9a8; }
+.gh-contrib-card .contrib-2 { background: #40c463; }
+.gh-contrib-card .contrib-3 { background: #30a14e; }
+.gh-contrib-card .contrib-4 { background: #216e39; }
+
+.gh-contrib-card .contrib-legend {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 0.4rem;
+    font-size: 0.6rem;
+    color: #9a7f6b;
+    justify-content: flex-end;
+}
+
+.gh-contrib-card .contrib-legend .contrib-day {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+
+.gh-contrib-card .github-empty,
+.gh-commits-card .github-empty,
+.gh-profile-card .github-empty {
+    font-size: 0.8rem;
+    color: #a08672;
+    font-style: italic;
+}
+
+/* Commits scrollbar */
+.gh-commits-card .gh-commits-inner::-webkit-scrollbar {
+    width: 4px;
+}
+
+.gh-commits-card .gh-commits-inner::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.gh-commits-card .gh-commits-inner::-webkit-scrollbar-thumb {
+    background: #dccbc0;
+    border-radius: 4px;
+}
+
+/* ─── Recently played header ─── */
+.recently-played-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.recently-played-title {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #5f4536;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.recently-played-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.clear-recent-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #c2a689;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: 30px;
+    transition: all 0.2s;
+}
+
+.clear-recent-btn:hover {
+    color: #d46060;
+    background: rgba(212, 96, 96, 0.08);
+}
+
+/* ─── Project media ─── */
+.project-media {
+    width: 100%;
+    border-radius: 0.8rem;
+    margin-bottom: 0.7rem;
+    object-fit: cover;
+    max-height: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #f0e8e1;
+}
+
+.project-card video.project-media {
+    max-height: 200px;
+}
+
+/* ─── Journal section ─── */
+.journal-form-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 1.5rem;
+}
+
+.journal-textarea {
+    width: 100%;
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+    padding: 0.8rem 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #3d2c21;
+    resize: vertical;
+    outline: none;
+    line-height: 1.5;
+    border: 1px solid rgba(214, 193, 174, 0.3);
+    transition: border-color 0.2s;
+}
+
+.journal-textarea:focus {
+    border-color: #c0a68b;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.journal-textarea::placeholder {
+    color: #baa08b;
+    font-style: italic;
+}
+
+.journal-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.6rem;
+}
+
+.journal-submit-btn {
+    background: #cbb294;
+    border: none;
+    border-radius: 30px;
+    padding: 0.45rem 1.2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+}
+
+.journal-submit-btn:hover {
+    background: #ba9f84;
+    transform: translateY(-1px);
+}
+
+.journal-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.journal-entry {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.2rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.15s;
+}
+
+.journal-entry:hover {
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.journal-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.journal-entry-date {
+    font-size: 0.68rem;
+    color: #a08672;
+    font-weight: 500;
+}
+
+.journal-delete-btn {
+    background: none;
+    border: none;
+    color: #c2a689;
+    cursor: pointer;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 20px;
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.journal-entry:hover .journal-delete-btn {
+    opacity: 1;
+}
+
+.journal-delete-btn:hover {
+    color: #d46060;
+    background: rgba(212, 96, 96, 0.08);
+}
+
+.journal-entry-text {
+    font-size: 0.88rem;
+    color: #3d2c21;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.journal-entry-text a {
+    color: #9b6e53;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.journal-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 2rem;
+    color: #a08672;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.journal-empty-icon {
+    font-size: 2rem;
+}
+
+/* ─── Journal attachment ─── */
+.journal-form-attachment {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+}
+
+.journal-attach-label {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(214, 193, 174, 0.4);
+    border-radius: 30px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    color: #6f5543;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
+}
+
+.journal-attach-label:hover {
+    background: #e8ddd2;
+    border-color: #baa08b;
+}
+
+.journal-file-name {
+    font-size: 0.72rem;
+    color: #8f735f;
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* ─── Journal entry media ─── */
+.journal-entry-media {
+    width: 100%;
+    border-radius: 0.8rem;
+    margin-top: 0.6rem;
+    max-height: 300px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #f0e8e1;
+}
+
+.journal-entry video.journal-entry-media {
+    max-height: 300px;
+}
+
+/* ─── JSON view ─── */
+.recently-played-json {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 1.4rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    overflow-x: auto;
+}
+
+.json-pre {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: #3d2c21;
+    white-space: pre;
+    margin: 0;
+}
+
+.json-key {
+    color: #9b6e53;
+    font-weight: 500;
+}
+
+.json-string {
+    color: #2b6e3b;
+}
+
+.json-number {
+    color: #b8704a;
+}
+
+.json-bool {
+    color: #7a62b0;
+}

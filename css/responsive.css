@@ -1,0 +1,89 @@
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .intro h1 {
+        font-size: 2.5rem;
+    }
+    
+    .badge-line {
+        justify-content: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .two-columns {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .activity-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .friends-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .gif-box {
+        width: 120px;
+        min-height: 110px;
+    }
+    
+    .admin-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.2rem;
+    }
+    
+    .project-card, .friend-card {
+        padding: 0.8rem;
+    }
+    
+    .playlist-item {
+        font-size: 0.85rem;
+    }
+}
+
+/* GitHub widget responsive */
+@media (max-width: 768px) {
+    .gh-commits-card {
+        max-width: 100%;
+    }
+    
+    .gh-contrib-card {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}

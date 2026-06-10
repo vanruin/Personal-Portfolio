@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin ✦ portfolio manager — anime themed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7ede4 0%, #f0e0d4 100%);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #2b211c;
+        }
+
+        .admin-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: #fffef8;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid rgba(255,235,215,0.8);
+        }
+
+        /* header */
+        .admin-header {
+            background: linear-gradient(135deg, #2b211c, #5a3f30);
+            padding: 2rem 2rem 1.5rem;
+            color: white;
+            border-bottom: 4px solid #e7bc9e;
+        }
+        .admin-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .admin-header h1 i {
+            color: #f3c8a5;
+        }
+        .admin-header p {
+            margin-top: 0.5rem;
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
+
+        /* tabs */
+        .admin-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1.2rem 2rem 0 2rem;
+            background: #fffcf7;
+            border-bottom: 1px solid #f0e2d6;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #7a5a48;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-btn i {
+            font-size: 0.9rem;
+        }
+        .tab-btn:hover {
+            background: #f3e7df;
+            color: #4f3527;
+        }
+        .tab-btn.active {
+            background: #e7d5c8;
+            color: #3e2a1f;
+            box-shadow: inset 0 -1px 0 #c9aa8d;
+        }
+
+        /* content panels */
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            animation: fadeIn 0.25s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* forms */
+        .add-form {
+            background: #fefaf5;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #f3e5db;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .add-form h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #5e3f2e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #f0ded2;
+            border-radius: 1rem;
+            background: white;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #dbb58f;
+            box-shadow: 0 0 0 3px rgba(219,181,143,0.2);
+        }
+        button {
+            background: #e3cfbf;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2f241f;
+        }
+        button:hover {
+            background: #d4bbaa;
+            transform: translateY(-1px);
+        }
+        .settings-btn {
+            background: #f2e4da;
+            margin-right: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .settings-btn.danger {
+            background: #f3cfc0;
+            color: #a14424;
+        }
+        .settings-btn.danger:hover {
+            background: #ecb69e;
+        }
+        .upload-field {
+            margin-bottom: 1rem;
+        }
+        .upload-label {
+            display: inline-block;
+            background: #efe2d8;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        .media-preview {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .media-preview img, .media-preview video {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid #eddacb;
+        }
+
+        /* items grid */
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+        .item-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #f2e2d6;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
+            border-color: #e7cfbf;
+        }
+        .item-card img, .item-card video {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 0.6rem;
+        }
+        .item-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: space-between;
+        }
+        .item-desc {
+            font-size: 0.8rem;
+            color: #7e6251;
+            margin: 0.4rem 0;
+        }
+        .delete-item {
+            background: none;
+            color: #ca947a;
+            font-size: 1rem;
+            padding: 0.2rem 0.5rem;
+        }
+        .delete-item:hover {
+            background: #f9e0d4;
+            color: #b65a31;
+        }
+
+        .settings-card {
+            background: #fefaf5;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #f3e5db;
+        }
+        .badge-icon {
+            font-size: 1.2rem;
+        }
+        hr {
+            margin: 0.8rem 0;
+            border-color: #f0e2d6;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.7rem;
+            color: #b28b6f;
+            border-top: 1px solid #f0e2d8;
+        }
+        @media (max-width: 700px) {
+            .admin-container {
+                margin: 0;
+            }
+            .admin-tabs {
+                padding: 1rem;
+            }
+            .tab-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="admin-container">
+    <header class="admin-header">
+        <h1><i class="fas fa-crown"></i> portfolio admin dashboard</h1>
+        <p>manage projects, friends, playlist, anime & journal — all changes sync with localStorage + export/import</p>
+    </header>
+
+    <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="projects"><i class="fas fa-folder"></i> projects</button>
+        <button class="tab-btn" data-tab="friends"><i class="fas fa-heart"></i> friends</button>
+        <button class="tab-btn" data-tab="playlist"><i class="fas fa-music"></i> playlist</button>
+        <button class="tab-btn" data-tab="anime"><i class="fas fa-tv"></i> anime</button>
+        <button class="tab-btn" data-tab="journal"><i class="fas fa-feather-alt"></i> journal</button>
+        <button class="tab-btn" data-tab="settings"><i class="fas fa-sliders-h"></i> settings</button>
+    </div>
+
+    <!-- Projects Tab -->
+    <div id="projects-tab" class="tab-content active">
+        <div class="add-form">
+            <h3><i class="fas fa-plus-circle"></i> add new project</h3>
+            <input type="text" id="newProjectName" placeholder="project name">
+            <textarea id="newProjectDesc" rows="2" placeholder="description"></textarea>
+            <input type="text" id="newProjectTags" placeholder="tags (comma separated)">
+            <input type="url" id="newProjectLink" placeholder="link (optional) — https://...">
+            <div class="upload-field">
+                <label class="upload-label"><i class="fas fa-upload"></i> image/video (optional)</label>
+                <input type="file" id="newProjectMedia" accept="image/*,video/*">
+                <div id="projectMediaPreview" class="media-preview"></div>
+            </div>
+            <button id="addProjectBtn"><i class="fas fa-save"></i> add project</button>
+        </div>
+        <div id="projectsList" class="items-list"></div>
+    </div>
+
+    <!-- Friends Tab -->
+    <div id="friends-tab" class="tab-content">
+        <div class="add-form">
+            <h3><i class="fas fa-user-plus"></i> add best friend</h3>
+            <input type="text" id="newFriendName" placeholder="friend name">
+            <input type="text" id="newFriendDesc" placeholder="description / vibe">
+            <input type="text" id="newFriendEmoji" placeholder="emoji (e.g., 🌸)">
+            <div class="upload-field">
+                <label class="upload-label"><i class="fas fa-camera"></i> profile picture (optional)</label>
+                <input type="file" id="newFriendPfp" accept="image/*">
+                <div id="friendPfpPreview" class="media-preview"></div>
+            </div>
+            <button id="addFriendBtn"><i class="fas fa-save"></i> add friend</button>
+        </div>
+        <div id="friendsList" class="items-list"></div>
+    </div>
+
+    <!-- Playlist Tab -->
+    <div id="playlist-tab" class="tab-content">
+        <div class="add-form">
+            <h3><i class="fas fa-headphones"></i> add song to playlist</h3>
+            <input type="text" id="newSongName" placeholder="song name">
+            <input type="text" id="newArtistName" placeholder="artist">
+            <input type="text" id="newSongEmoji" placeholder="emoji (optional)">
+            <button id="addSongBtn"><i class="fas fa-save"></i> add song</button>
+        </div>
+        <div id="playlistList" class="items-list"></div>
+    </div>
+
+    <!-- Anime Tab -->
+    <div id="anime-tab" class="tab-content">
+        <div class="add-form">
+            <h3><i class="fas fa-plus"></i> add anime</h3>
+            <input type="text" id="newAnimeName" placeholder="anime title">
+            <div class="upload-field">
+                <label class="upload-label"><i class="fas fa-image"></i> image (optional)</label>
+                <input type="file" id="newAnimeImage" accept="image/*">
+                <div id="animeImagePreview" class="media-preview"></div>
+            </div>
+            <button id="addAnimeBtn"><i class="fas fa-save"></i> add anime</button>
+        </div>
+        <div id="animeList" class="items-list"></div>
+    </div>
+
+    <!-- Journal Tab -->
+    <div id="journal-tab" class="tab-content">
+        <div class="add-form">
+            <h3><i class="fas fa-pen-fancy"></i> add journal entry</h3>
+            <input type="text" id="adminJournalTitle" placeholder="entry title">
+            <textarea id="adminJournalDesc" rows="3" placeholder="write your thoughts..."></textarea>
+            <div class="upload-field">
+                <label class="upload-label"><i class="fas fa-image"></i> image (optional)</label>
+                <input type="file" id="adminJournalImage" accept="image/*">
+                <div id="adminJournalImagePreview" class="media-preview"></div>
+            </div>
+            <button id="addAdminJournalBtn"><i class="fas fa-save"></i> add entry</button>
+        </div>
+        <div class="add-form" style="margin-top: 1rem;">
+            <h3><i class="fas fa-list"></i> manage journal entries</h3>
+            <button id="clearAllJournalBtn" class="settings-btn danger" style="width:100%;margin-top:0;"><i class="fas fa-trash-alt"></i> clear all journal entries</button>
+        </div>
+        <div id="journalAdminList" class="items-list"></div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="settings-tab" class="tab-content">
+        <div class="settings-card">
+            <h3><i class="fas fa-database"></i> data management</h3>
+            <button id="exportDataBtn" class="settings-btn"><i class="fas fa-download"></i> export all data (JSON)</button>
+            <button id="importDataBtn" class="settings-btn"><i class="fas fa-upload"></i> import data from file</button>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            <button id="resetDefaultBtn" class="settings-btn danger"><i class="fas fa-undo-alt"></i> reset to default</button>
+            <button id="clearAllBtn" class="settings-btn danger"><i class="fas fa-trash-alt"></i> clear all data</button>
+        </div>
+        <div class="settings-card">
+            <h3><i class="fas fa-info-circle"></i> about</h3>
+            <p>Data is stored in localStorage (browser). All changes persist. Use export/import to backup.</p>
+            <p><strong>main portfolio:</strong> <a href="#" id="fakePortfolioLink" style="color:#bf8563;">open portfolio →</a> (add your portfolio link)</p>
+        </div>
+    </div>
+    <footer>✨ admin panel — anime vibes | data lives in your browser ✨</footer>
+</div>
+
+<script>
+    // FULL ADMIN DASHBOARD WITH LOCALSTORAGE + PREVIEWS
+    (function(){
+        // ---------- DEFAULT DATA ----------
+        const defaultData = {
+            projects: [
+                { id: "p1", name: "✦ anime shrine", desc: "interactive gallery with ghibli vibes", tags: "react, anime", link: "https://github.com", media: "" },
+                { id: "p2", name: "✦ playlist generator", desc: "spotify playlist randomizer", tags: "js, api", link: "", media: "" }
+            ],
+            friends: [
+                { id: "f1", name: "miku", desc: "digital artist", emoji: "🎨", pfp: "" },
+                { id: "f2", name: "yuki", desc: "music lover", emoji: "🎧", pfp: "" }
+            ],
+            playlist: [
+                { id: "s1", song: "space song", artist: "beach house", emoji: "🌙" },
+                { id: "s2", song: "yellow", artist: "coldplay", emoji: "💛" }
+            ],
+            animeList: [
+                { id: "a1", name: "Frieren", image: "" },
+                { id: "a2", name: "Dungeon Meshi", image: "" }
+            ],
+            journalEntries: [
+                { id: "j1", title: "first entry", content: "started my anime journey!", image: "" }
+            ]
+        };
+
+        // load or init
+        let store = {
+            projects: [],
+            friends: [],
+            playlist: [],
+            animeList: [],
+            journalEntries: []
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem("anime_portfolio_admin");
+            if(saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    store = { ...defaultData, ...parsed };
+                } catch(e) { store = JSON.parse(JSON.stringify(defaultData)); }
+            } else {
+                store = JSON.parse(JSON.stringify(defaultData));
+            }
+            // ensure arrays exist
+            ['projects','friends','playlist','animeList','journalEntries'].forEach(k => { if(!store[k]) store[k] = []; });
+        }
+
+        function saveData() {
+            localStorage.setItem("anime_portfolio_admin", JSON.stringify(store));
+        }
+
+        // Helper: generate unique id
+        function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2, 6); }
+
+        // ----- file to base64 -----
+        function fileToBase64(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ----- RENDER FUNCTIONS -----
+        function renderProjects() {
+            const container = document.getElementById('projectsList');
+            if(!container) return;
+            if(store.projects.length === 0) { container.innerHTML = '<div class="item-card" style="text-align:center;">✨ no projects yet ✨</div>'; return; }
+            container.innerHTML = store.projects.map(proj => `
+                <div class="item-card" data-id="${proj.id}">
+                    ${proj.media ? (proj.media.includes('video') ? `<video src="${proj.media}" controls></video>` : `<img src="${proj.media}" alt="project media">`) : '<div style="background:#f5e9e0; border-radius:1rem; padding:1rem; text-align:center;"><i class="fas fa-image"></i> no media</div>'}
+                    <div class="item-title"><span>📁 ${escapeHtml(proj.name)}</span><button class="delete-item" data-type="project" data-id="${proj.id}"><i class="fas fa-trash"></i></button></div>
+                    <div class="item-desc">${escapeHtml(proj.desc)}</div>
+                    <div class="item-desc"><small>🏷️ ${escapeHtml(proj.tags)}</small></div>
+                    ${proj.link ? `<a href="${escapeHtml(proj.link)}" target="_blank" style="font-size:0.7rem;">🔗 link</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderFriends() {
+            const container = document.getElementById('friendsList');
+            if(!container) return;
+            if(store.friends.length === 0) { container.innerHTML = '<div class="item-card">🌸 no friends added yet</div>'; return; }
+            container.innerHTML = store.friends.map(f => `
+                <div class="item-card" data-id="${f.id}">
+                    ${f.pfp ? `<img src="${f.pfp}" alt="pfp">` : `<div style="background:#eedbcb; border-radius:1rem; padding:0.8rem; text-align:center;">${f.emoji || '🌸'}</div>`}
+                    <div class="item-title"><span>${f.emoji || '💖'} ${escapeHtml(f.name)}</span><button class="delete-item" data-type="friend" data-id="${f.id}"><i class="fas fa-trash"></i></button></div>
+                    <div class="item-desc">${escapeHtml(f.desc)}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderPlaylist() {
+            const container = document.getElementById('playlistList');
+            if(!container) return;
+            if(store.playlist.length === 0) { container.innerHTML = '<div class="item-card">🎵 no songs yet, add your vibe!</div>'; return; }
+            container.innerHTML = store.playlist.map(s => `
+                <div class="item-card">
+                    <div class="item-title"><span>${s.emoji || '🎧'} ${escapeHtml(s.song)} — ${escapeHtml(s.artist)}</span><button class="delete-item" data-type="playlist" data-id="${s.id}"><i class="fas fa-trash"></i></button></div>
+                </div>
+            `).join('');
+        }
+
+        function renderAnime() {
+            const container = document.getElementById('animeList');
+            if(!container) return;
+            if(store.animeList.length === 0) { container.innerHTML = '<div class="item-card">📺 no anime listed</div>'; return; }
+            container.innerHTML = store.animeList.map(a => `
+                <div class="item-card">
+                    ${a.image ? `<img src="${a.image}" alt="anime image">` : `<div style="background:#eedbcb; border-radius:1rem; padding:0.5rem; text-align:center;">🎞️ preview</div>`}
+                    <div class="item-title"><span>✨ ${escapeHtml(a.name)}</span><button class="delete-item" data-type="anime" data-id="${a.id}"><i class="fas fa-trash"></i></button></div>
+                </div>
+            `).join('');
+        }
+
+        function renderJournalAdmin() {
+            const container = document.getElementById('journalAdminList');
+            if(!container) return;
+            if(store.journalEntries.length === 0) { container.innerHTML = '<div class="item-card">📔 no journal entries yet</div>'; return; }
+            container.innerHTML = store.journalEntries.map(j => `
+                <div class="item-card">
+                    ${j.image ? `<img src="${j.image}" alt="journal img">` : ''}
+                    <div class="item-title"><span>📓 ${escapeHtml(j.title)}</span><button class="delete-item" data-type="journal" data-id="${j.id}"><i class="fas fa-trash"></i></button></div>
+                    <div class="item-desc">${escapeHtml(j.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+
+        // ----- ADD LOGIC WITH FILE -----
+        document.getElementById('addProjectBtn')?.addEventListener('click', async () => {
+            const name = document.getElementById('newProjectName').value;
+            const desc = document.getElementById('newProjectDesc').value;
+            const tags = document.getElementById('newProjectTags').value;
+            const link = document.getElementById('newProjectLink').value;
+            const file = document.getElementById('newProjectMedia').files[0];
+            let mediaBase64 = "";
+            if(file) mediaBase64 = await fileToBase64(file);
+            if(!name) return alert("project name required");
+            store.projects.push({ id: uid(), name, desc, tags, link, media: mediaBase64 });
+            saveData(); renderProjects(); clearProjectForm();
+        });
+
+        function clearProjectForm() {
+            document.getElementById('newProjectName').value = '';
+            document.getElementById('newProjectDesc').value = '';
+            document.getElementById('newProjectTags').value = '';
+            document.getElementById('newProjectLink').value = '';
+            document.getElementById('newProjectMedia').value = '';
+            document.getElementById('projectMediaPreview').innerHTML = '';
+        }
+        // friend
+        document.getElementById('addFriendBtn')?.addEventListener('click', async () => {
+            const name = document.getElementById('newFriendName').value;
+            const desc = document.getElementById('newFriendDesc').value;
+            const emoji = document.getElementById('newFriendEmoji').value || '🌸';
+            const file = document.getElementById('newFriendPfp').files[0];
+            let pfpBase64 = "";
+            if(file) pfpBase64 = await fileToBase64(file);
+            if(!name) return;
+            store.friends.push({ id: uid(), name, desc, emoji, pfp: pfpBase64 });
+            saveData(); renderFriends(); clearFriendForm();
+        });
+        function clearFriendForm() {
+            document.getElementById('newFriendName').value = '';
+            document.getElementById('newFriendDesc').value = '';
+            document.getElementById('newFriendEmoji').value = '';
+            document.getElementById('newFriendPfp').value = '';
+            document.getElementById('friendPfpPreview').innerHTML = '';
+        }
+        // song
+        document.getElementById('addSongBtn')?.addEventListener('click', () => {
+            const song = document.getElementById('newSongName').value;
+            const artist = document.getElementById('newArtistName').value;
+            const emoji = document.getElementById('newSongEmoji').value || '🎵';
+            if(!song || !artist) return;
+            store.playlist.push({ id: uid(), song, artist, emoji });
+            saveData(); renderPlaylist(); 
+            document.getElementById('newSongName').value = ''; document.getElementById('newArtistName').value = ''; document.getElementById('newSongEmoji').value = '';
+        });
+        // anime
+        document.getElementById('addAnimeBtn')?.addEventListener('click', async () => {
+            const name = document.getElementById('newAnimeName').value;
+            const file = document.getElementById('newAnimeImage').files[0];
+            let imageBase64 = "";
+            if(file) imageBase64 = await fileToBase64(file);
+            if(!name) return;
+            store.animeList.push({ id: uid(), name, image: imageBase64 });
+            saveData(); renderAnime(); 
+            document.getElementById('newAnimeName').value = ''; document.getElementById('newAnimeImage').value = ''; document.getElementById('animeImagePreview').innerHTML = '';
+        });
+        // journal entry
+        document.getElementById('addAdminJournalBtn')?.addEventListener('click', async () => {
+            const title = document.getElementById('adminJournalTitle').value;
+            const content = document.getElementById('adminJournalDesc').value;
+            const file = document.getElementById('adminJournalImage').files[0];
+            let imgBase64 = "";
+            if(file) imgBase64 = await fileToBase64(file);
+            if(!title || !content) return;
+            store.journalEntries.push({ id: uid(), title, content, image: imgBase64 });
+            saveData(); renderJournalAdmin(); 
+            document.getElementById('adminJournalTitle').value = ''; document.getElementById('adminJournalDesc').value = ''; document.getElementById('adminJournalImage').value = ''; document.getElementById('adminJournalImagePreview').innerHTML = '';
+        });
+
+        // Delete listeners using event delegation
+        document.body.addEventListener('click', (e) => {
+            const delBtn = e.target.closest('.delete-item');
+            if(!delBtn) return;
+            const type = delBtn.getAttribute('data-type');
+            const id = delBtn.getAttribute('data-id');
+            if(type === 'project') { store.projects = store.projects.filter(p => p.id !== id); renderProjects(); saveData(); }
+            if(type === 'friend') { store.friends = store.friends.filter(f => f.id !== id); renderFriends(); saveData(); }
+            if(type === 'playlist') { store.playlist = store.playlist.filter(s => s.id !== id); renderPlaylist(); saveData(); }
+            if(type === 'anime') { store.animeList = store.animeList.filter(a => a.id !== id); renderAnime(); saveData(); }
+            if(type === 'journal') { store.journalEntries = store.journalEntries.filter(j => j.id !== id); renderJournalAdmin(); saveData(); }
+        });
+
+        // settings & extra
+        document.getElementById('clearAllJournalBtn')?.addEventListener('click', () => {
+            if(confirm("Delete all journal entries?")) { store.journalEntries = []; saveData(); renderJournalAdmin(); }
+        });
+        document.getElementById('clearAllBtn')?.addEventListener('click', () => {
+            if(confirm("⚠️ CLEAR ALL DATA? projects, friends, playlist, anime, journal will be reset to default.")){
+                store = JSON.parse(JSON.stringify(defaultData));
+                saveData(); renderAll();
+            }
+        });
+        document.getElementById('resetDefaultBtn')?.addEventListener('click', () => {
+            if(confirm("Reset to default data?")){ store = JSON.parse(JSON.stringify(defaultData)); saveData(); renderAll(); }
+        });
+        document.getElementById('exportDataBtn')?.addEventListener('click', () => {
+            const dataStr = JSON.stringify(store, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'anime_portfolio_backup.json'; a.click(); URL.revokeObjectURL(url);
+        });
+        document.getElementById('importDataBtn')?.addEventListener('click', () => { document.getElementById('importFileInput').click(); });
+        document.getElementById('importFileInput')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try { const imported = JSON.parse(ev.target.result); store = {...store, ...imported}; saveData(); renderAll(); alert("imported successfully"); } 
+                catch(e){ alert("invalid json"); }
+            }; reader.readAsText(file);
+        });
+
+        function renderAll() { renderProjects(); renderFriends(); renderPlaylist(); renderAnime(); renderJournalAdmin(); }
+
+        // tabs
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                tabs.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // file previews simplified (optional for ux)
+        function previewFile(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            if(!input) return;
+            input.addEventListener('change', (e) => {
+                const previewDiv = document.getElementById(previewId);
+                if(previewDiv && e.target.files.length) {
+                    const url = URL.createObjectURL(e.target.files[0]);
+                    previewDiv.innerHTML = `<img src="${url}" style="max-width:80px;border-radius:12px;">`;
+                }
+            });
+        }
+        previewFile('newProjectMedia', 'projectMediaPreview');
+        previewFile('newFriendPfp', 'friendPfpPreview');
+        previewFile('newAnimeImage', 'animeImagePreview');
+        previewFile('adminJournalImage', 'adminJournalImagePreview');
+
+        loadData(); renderAll();
+    })();
+</script>
+</body>
+</html>
