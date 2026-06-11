@@ -1,10 +1,6 @@
 // Default portfolio data
 const defaultProjectsData = [
-    { id: 1, name: "✦ dreamscape zine", desc: "digital collage & poetry collection about soft futures, dreams, and growing up.", tags: ["art", "poetry", "indie"], date: "2024" },
-    { id: 2, name: "🌸 cozynotes", desc: "aesthetic note-taking web app with pastel UI, markdown support, and local storage.", tags: ["design", "ui/ux", "react"], date: "2024" },
-    { id: 3, name: "🎧 lofi radio widget", desc: "customizable web radio player with chill beats, animated visualizer, and playlist.", tags: ["js", "music", "widget"], date: "2023" },
-    { id: 4, name: "🍰 100 days of code", desc: "creative coding challenge – generative art, mini games, and interactive sketches.", tags: ["creative coding", "p5js"], date: "2024" },
-    { id: 5, name: "🌿 study with me", desc: "pomodoro timer + lo-fi beats + aesthetic background for productivity.", tags: ["productivity", "vanilla js"], date: "2024" }
+
 ];
 
 const defaultFriendsData = [
@@ -28,11 +24,11 @@ const defaultAnimeList = [
     { name: "Howl's Moving Castle", imageUrl: '' }
 ];
 
-// Global state
-let projectsData = [...defaultProjectsData];
-let friendsData = [...defaultFriendsData];
-let playlistData = [...defaultPlaylist];
-let animeData = [...defaultAnimeList];
+// Global state — start empty; data comes from localStorage or Firebase
+let projectsData = [];
+let friendsData = [];
+let playlistData = [];
+let animeData = [];
 
 // LocalStorage keys
 const STORAGE_KEYS = {

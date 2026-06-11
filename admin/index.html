@@ -713,8 +713,24 @@
             const type = delBtn.getAttribute('data-type');
             const id = delBtn.getAttribute('data-id');
             if(type === 'project') { 
+                // Find project before removing from store
+                const proj = store.projects.find(p => p.id === id);
+                const projName = proj ? proj.name : '';
                 store.projects = store.projects.filter(p => p.id !== id); 
-                renderProjects(); saveData(); 
+                renderProjects(); saveData();
+                // Also remove from real portfolio data + Firebase
+                if (projName && typeof projectsData !== 'undefined') {
+                    // Find by matching name (projectsData names don't have emoji prefix)
+                    const idx = projectsData.findIndex(p => p.name === projName);
+                    if (idx !== -1) {
+                        const removed = projectsData.splice(idx, 1);
+                        if (typeof saveProjects === 'function') saveProjects();
+                        if (removed[0] && removed[0].fbKey && typeof deleteProjectFromFirebase === 'function') {
+                            deleteProjectFromFirebase(removed[0].fbKey);
+                        }
+                    }
+                }
+                if (typeof refreshPortfolio === 'function') refreshPortfolio();
             }
             if(type === 'friend') { 
                 const friend = store.friends.find(f => f.id === id);
@@ -768,9 +784,6 @@
                 store.journalEntries = store.journalEntries.filter(j => j.id !== id); 
                 saveData(); renderJournalAdmin();
             }
-            if(type === 'playlist') { store.playlist = store.playlist.filter(s => s.id !== id); renderPlaylist(); saveData(); }
-            if(type === 'anime') { store.animeList = store.animeList.filter(a => a.id !== id); renderAnime(); saveData(); }
-            if(type === 'journal') { store.journalEntries = store.journalEntries.filter(j => j.id !== id); renderJournalAdmin(); saveData(); }
         });
 
         // settings & extra

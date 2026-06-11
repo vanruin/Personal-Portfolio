@@ -4,10 +4,40 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const crypto = require('crypto');
+const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const GITHUB_TOKEN = process.env.GITHUB;
+
+// ─── Admin credentials from .env ───
+const ADMIN_EMAIL = process.env.ADMINEMAIL || 'admin';
+const ADMIN_PASSWORD = process.env.ADMINPASSWORD || 'admin';
+const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'fallback-secret';
+
+// ─── Session middleware ───
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false, // set to true if using HTTPS
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// ─── Auth middleware ───
+function requireAuth(req, res, next) {
+    if (req.session && req.session.authenticated) {
+        return next();
+    }
+    // If accessing admin page, redirect to login
+    if (req.path.startsWith('/admin') || req.path === '/admin') {
+        return res.redirect('/admin-login');
+    }
+    next();
+}
 
 // ─── Multer config for file uploads ───
 const UPLOAD_PATHS = {
@@ -161,7 +191,49 @@ app.delete('/api/spotify/recent', (req, res) => {
     res.json({ success: true, tracks: [] });
 });
 
-// Serve static files
+// ─── Admin login/logout routes ───
+// These must come BEFORE the static file middleware to avoid being caught by it
+
+// GET login page
+app.get('/admin-login', (req, res) => {
+    // If already authenticated, redirect to admin
+    if (req.session && req.session.authenticated) {
+        return res.redirect('/admin/index.html');
+    }
+    res.sendFile(path.join(__dirname, 'admin-login.html'));
+});
+
+// POST login
+app.post('/api/admin/login', express.urlencoded({ extended: true }), (req, res) => {
+    const { email, password } = req.body;
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        req.session.authenticated = true;
+        req.session.email = email;
+        return res.json({ success: true });
+    }
+    res.status(401).json({ success: false, error: 'Invalid credentials' });
+});
+
+// GET logout
+app.get('/api/admin/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/admin-login');
+});
+
+// POST logout (API)
+app.post('/api/admin/logout', (req, res) => {
+    req.session.destroy();
+    res.json({ success: true });
+});
+
+// ─── Serve static files with auth protection for admin ───
+app.use((req, res, next) => {
+    // Protect /admin/ routes
+    if (req.path.startsWith('/admin/') || req.path === '/admin') {
+        return requireAuth(req, res, next);
+    }
+    next();
+});
 app.use(express.static(path.join(__dirname)));
 
 // ─── GitHub API proxy endpoints ───

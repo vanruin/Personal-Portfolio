@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin login ✦ portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #f7ede4 0%, #f0e0d4 100%);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2b211c;
+        }
+        .login-container {
+            background: #fffef8;
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,235,215,0.8);
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+        }
+        .login-container h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .login-container h1 i {
+            color: #c9aa8d;
+        }
+        .login-container p {
+            color: #7a5a48;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .input-group {
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #5e3f2e;
+            margin-bottom: 0.3rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #f0ded2;
+            border-radius: 1rem;
+            background: white;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #dbb58f;
+            box-shadow: 0 0 0 3px rgba(219,181,143,0.2);
+        }
+        button {
+            background: #e3cfbf;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #2f241f;
+            width: 100%;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        button:hover {
+            background: #d4bbaa;
+            transform: translateY(-1px);
+        }
+        .error-msg {
+            color: #c0392b;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .error-msg.visible {
+            display: block;
+        }
+        .lock-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #c9aa8d;
+        }
+        .back-link {
+            display: block;
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+            color: #9b6e53;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="lock-icon"><i class="fas fa-lock"></i></div>
+        <h1><i class="fas fa-crown"></i> admin login</h1>
+        <p>enter your credentials to manage the portfolio</p>
+
+        <div class="input-group">
+            <label for="email"><i class="fas fa-envelope"></i> email</label>
+            <input type="text" id="email" name="email" placeholder="admin email" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label for="password"><i class="fas fa-key"></i> password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••">
+        </div>
+
+        <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-circle"></i> invalid email or password</div>
+
+        <button id="loginBtn"><i class="fas fa-sign-in-alt"></i> login</button>
+
+        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> back to portfolio</a>
+    </div>
+
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (!email || !password) {
+                errorMsg.textContent = '⚠️ please enter email and password';
+                errorMsg.classList.add('visible');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    window.location.href = '/admin/index.html';
+                } else {
+                    errorMsg.textContent = '❌ ' + (data.error || 'invalid credentials');
+                    errorMsg.classList.add('visible');
+                }
+            } catch (err) {
+                errorMsg.textContent = '❌ connection error';
+                errorMsg.classList.add('visible');
+            }
+        });
+
+        // Enter key support
+        document.getElementById('password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
+        });
+        document.getElementById('email').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
+        });
+    </script>
+</body>
+</html>

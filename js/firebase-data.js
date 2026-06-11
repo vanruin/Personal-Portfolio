@@ -115,6 +115,10 @@ function loadProjectsFromFirebase(callback) {
     listenToFirebase(DB_PATH.PROJECTS, (items) => {
         if (items && items.length > 0) {
             projectsData = items;
+        } else {
+            // Firebase has no projects — clear local data too
+            projectsData = [];
+            saveProjects();
         }
         if (callback) callback();
         if (typeof window.refreshPortfolio === 'function') {
