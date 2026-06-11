@@ -1,42 +1,42 @@
 [
   {
-    "song": "Reminder",
-    "artist": "The Weeknd",
-    "album": "Starboy",
-    "albumArt": "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452",
-    "playedAt": "2026-06-10T23:58:36.420Z",
-    "timestamp": 1781135916420
+    "song": "Kiss Me More (feat. SZA)",
+    "artist": "Doja Cat; SZA",
+    "album": "Planet Her",
+    "albumArt": "https://i.scdn.co/image/ab67616d0000b27314b7b2a920a41166d53ddd49",
+    "playedAt": "2026-06-11T02:58:44.446Z",
+    "timestamp": 1781146724446
   },
   {
-    "song": "Kill Bill",
+    "song": "Streets",
+    "artist": "Doja Cat",
+    "album": "Hot Pink",
+    "albumArt": "https://i.scdn.co/image/ab67616d0000b273d0bbfea6226b5c3707de92ed",
+    "playedAt": "2026-06-11T00:42:20.207Z",
+    "timestamp": 1781138540207
+  },
+  {
+    "song": "Moonlight",
+    "artist": "Kali Uchis",
+    "album": "Moonlight",
+    "albumArt": "https://i.scdn.co/image/ab67616d0000b273b13b4a434585f484548e42c9",
+    "playedAt": "2026-06-11T00:35:05.542Z",
+    "timestamp": 1781138105542
+  },
+  {
+    "song": "Good Days",
     "artist": "SZA",
     "album": "SOS",
     "albumArt": "https://i.scdn.co/image/ab67616d0000b273bc18bdade69ec5ef0bb25b17",
-    "playedAt": "2026-06-10T23:55:49.120Z",
-    "timestamp": 1781135749120
+    "playedAt": "2026-06-11T00:29:15.266Z",
+    "timestamp": 1781137755266
   },
   {
-    "song": "butterflies",
-    "artist": "Denise Julia",
-    "album": "butterflies",
-    "albumArt": "https://i.scdn.co/image/ab67616d0000b273cec00f6da39c2dd3ffa3849f",
-    "playedAt": "2026-06-10T23:52:26.517Z",
-    "timestamp": 1781135546517
-  },
-  {
-    "song": "Shirt",
-    "artist": "SZA",
-    "album": "Shirt",
-    "albumArt": "https://i.scdn.co/image/ab67616d0000b273aaea1f8772a3f49a9ce31b40",
-    "playedAt": "2026-06-10T23:47:27.432Z",
-    "timestamp": 1781135247432
-  },
-  {
-    "song": "3:15 (Breathe)",
-    "artist": "Russ",
-    "album": "3:15 (Breathe)",
-    "albumArt": "https://i.scdn.co/image/ab67616d0000b27347912996054fec2a1ef78035",
-    "playedAt": "2026-06-10T23:47:12.445Z",
-    "timestamp": 1781135232445
+    "song": "Love Songs - Bonus",
+    "artist": "Kaash Paige",
+    "album": "Parked Car Convos",
+    "albumArt": "https://i.scdn.co/image/ab67616d0000b27387a86b99f8dde9c7d7e3bf62",
+    "playedAt": "2026-06-11T00:24:28.527Z",
+    "timestamp": 1781137468527
   }
 ]

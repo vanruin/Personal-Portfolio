@@ -8,11 +8,6 @@ const defaultProjectsData = [
 ];
 
 const defaultFriendsData = [
-    { id: 1, name: "luna ✨", desc: "my emotional support art buddy & midnight ramen partner", emoji: "🎨", vibe: "chaotic good" },
-    { id: 2, name: "mochi 🐇", desc: "always sends the best playlists and knows my coffee order", emoji: "🍜", vibe: "soft energy" },
-    { id: 3, name: "kai 🌊", desc: "deep talks at 3am, book recs, and matching tattoos soon", emoji: "🎧", vibe: "ocean calm" },
-    { id: 4, name: "june 🕯️", desc: "my ride or die since middle school, literally my twin flame", emoji: "📖", vibe: "warm hug" },
-    { id: 5, name: "remi 🍓", desc: "co-op gaming partner & professional chaos coordinator", emoji: "🎮", vibe: "chaotic good" }
 ];
 
 const defaultPlaylist = [
@@ -25,12 +20,12 @@ const defaultPlaylist = [
 ];
 
 const defaultAnimeList = [
-    "Natsume's Book of Friends",
-    "Frieren: Beyond Journey's End",
-    "Dungeon Meshi",
-    "Soul Eater",
-    "Spy x Family",
-    "Howl's Moving Castle"
+    { name: "Natsume's Book of Friends", imageUrl: '' },
+    { name: "Frieren: Beyond Journey's End", imageUrl: '' },
+    { name: "Dungeon Meshi", imageUrl: '' },
+    { name: "Soul Eater", imageUrl: '' },
+    { name: "Spy x Family", imageUrl: '' },
+    { name: "Howl's Moving Castle", imageUrl: '' }
 ];
 
 // Global state
@@ -75,6 +70,26 @@ function savePlaylist() {
 
 function saveAnime() {
     localStorage.setItem(STORAGE_KEYS.ANIME, JSON.stringify(animeData));
+}
+
+// ─── Journal helpers ───
+const JOURNAL_KEY = "name_portfolio_journal";
+
+function addJournalEntry(title, content, imageUrl = '') {
+    const stored = localStorage.getItem(JOURNAL_KEY);
+    const entries = stored ? JSON.parse(stored) : [];
+    entries.unshift({ title, content, imageUrl, date: new Date().toISOString(), timestamp: Date.now() });
+    localStorage.setItem(JOURNAL_KEY, JSON.stringify(entries));
+    return entries;
+}
+
+function getJournalEntries() {
+    const stored = localStorage.getItem(JOURNAL_KEY);
+    return stored ? JSON.parse(stored) : [];
+}
+
+function clearJournalEntries() {
+    localStorage.removeItem(JOURNAL_KEY);
 }
 
 // Helper functions

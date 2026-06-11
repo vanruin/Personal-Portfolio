@@ -117,6 +117,9 @@ function loadProjectsFromFirebase(callback) {
             projectsData = items;
         }
         if (callback) callback();
+        if (typeof window.refreshPortfolio === 'function') {
+            window.refreshPortfolio();
+        }
     });
 }
 
@@ -126,6 +129,9 @@ function loadFriendsFromFirebase(callback) {
             friendsData = items;
         }
         if (callback) callback();
+        if (typeof window.refreshPortfolio === 'function') {
+            window.refreshPortfolio();
+        }
     });
 }
 
@@ -135,6 +141,9 @@ function loadPlaylistFromFirebase(callback) {
             playlistData = items;
         }
         if (callback) callback();
+        if (typeof window.refreshPortfolio === 'function') {
+            window.refreshPortfolio();
+        }
     });
 }
 
@@ -142,12 +151,16 @@ function loadAnimeFromFirebase(callback) {
     listenToFirebase(DB_PATH.ANIME, (items) => {
         if (items && items.length > 0) {
             animeData = items.map(item => {
-                // Handle both object and string formats
-                if (typeof item === 'string') return item;
-                return item.title || item.name || item;
+                // Handle string, { name }, { title }, { name, imageUrl }, or { title, imageUrl }
+                if (typeof item === 'string') return { name: item, imageUrl: '' };
+                const name = item.title || item.name || String(item) || '';
+                return { name, imageUrl: item.imageUrl || '' };
             });
         }
         if (callback) callback();
+        if (typeof window.refreshPortfolio === 'function') {
+            window.refreshPortfolio();
+        }
     });
 }
 
@@ -155,6 +168,10 @@ function loadJournalFromFirebase(callback) {
     listenToFirebase(DB_PATH.JOURNAL, (items) => {
         const entries = (items || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
         if (callback) callback(entries);
+        // Journal has its own render, but trigger portfolio refresh too
+        if (typeof window.renderJournalEntries === 'function') {
+            window.renderJournalEntries();
+        }
     });
 }
 

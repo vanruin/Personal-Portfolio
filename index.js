@@ -12,6 +12,8 @@ const GITHUB_TOKEN = process.env.GITHUB;
 // ─── Multer config for file uploads ───
 const UPLOAD_PATHS = {
     project: path.join(__dirname, 'assets', 'project'),
+    'project-image': path.join(__dirname, 'assets', 'project', 'images'),
+    'project-video': path.join(__dirname, 'assets', 'project', 'videos'),
     journal: path.join(__dirname, 'assets', 'journal'),
     'journal-image': path.join(__dirname, 'assets', 'journal', 'image'),
     friendspfp: path.join(__dirname, 'assets', 'friendspfp'),

@@ -31,11 +31,13 @@ function renderJournalEntries() {
         );
 
         let mediaHtml = '';
-        if (entry.mediaUrl) {
-            if (entry.mediaType === 'video') {
-                mediaHtml = `<video class="journal-entry-media" src="${entry.mediaUrl}" controls preload="metadata"></video>`;
+        const srcUrl = entry.mediaUrl || entry.imageUrl || '';
+        if (srcUrl) {
+            const mediaType = entry.mediaType || (srcUrl.startsWith('data:video') ? 'video' : 'image');
+            if (mediaType === 'video') {
+                mediaHtml = `<video class="journal-entry-media" src="${srcUrl}" controls preload="metadata"></video>`;
             } else {
-                mediaHtml = `<img class="journal-entry-media" src="${entry.mediaUrl}" alt="journal image" loading="lazy">`;
+                mediaHtml = `<img class="journal-entry-media" src="${srcUrl}" alt="journal image" loading="lazy">`;
             }
         }
 
@@ -57,6 +59,15 @@ function renderJournalEntries() {
 }
 
 function initJournal() {
+    // Load from localStorage first as fallback
+    if (typeof getJournalEntries === 'function') {
+        const localEntries = getJournalEntries();
+        if (localEntries.length > 0) {
+            journalEntries = localEntries;
+            renderJournalEntries();
+        }
+    }
+    // Then load from Firebase (overrides)
     if (window.loadJournalFromFirebase) {
         window.loadJournalFromFirebase((entries) => {
             journalEntries = entries || [];

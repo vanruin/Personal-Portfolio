@@ -282,6 +282,15 @@
     </style>
 </head>
 <body>
+<script src="../js/data.js"></script>
+<script src="../js/firebase-data.js"></script>
+<script src="../js/firebase-debug.js"></script>
+<script>
+    // Ensure escapeHtml is available for the inline admin code
+    if (typeof escapeHtml !== 'function') {
+        window.escapeHtml = function(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m === '&') return '&'; if(m === '<') return '<'; if(m === '>') return '>'; return m;}); };
+    }
+</script>
 <div class="admin-container">
     <header class="admin-header">
         <h1><i class="fas fa-crown"></i> portfolio admin dashboard</h1>
@@ -537,11 +546,32 @@
             const tags = document.getElementById('newProjectTags').value;
             const link = document.getElementById('newProjectLink').value;
             const file = document.getElementById('newProjectMedia').files[0];
-            let mediaBase64 = "";
-            if(file) mediaBase64 = await fileToBase64(file);
             if(!name) return alert("project name required");
-            store.projects.push({ id: uid(), name, desc, tags, link, media: mediaBase64 });
+            let mediaUrl = '';
+            let mediaType = '';
+            // Upload file to server if present
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('type', file.type.startsWith('video') ? 'project-video' : 'project-image');
+                    const resp = await fetch('/api/upload', { method: 'POST', body: formData });
+                    const result = await resp.json();
+                    if (result.success) {
+                        mediaUrl = result.url;
+                        mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                    }
+                } catch (e) {
+                    console.warn('Upload failed', e);
+                }
+            }
+            const project = { name, desc, tags: tags.split(',').map(t => t.trim()).filter(Boolean), link, mediaUrl, mediaType };
+            if (typeof addProject === 'function') addProject(project);
+            if (typeof saveProjectToFirebase === 'function') saveProjectToFirebase(project);
+            // Also keep local admin store
+            store.projects.push({ id: uid(), name, desc, tags, link, media: mediaUrl });
             saveData(); renderProjects(); clearProjectForm();
+            alert(`📁 ${name} added to portfolio projects!`);
         });
 
         function clearProjectForm() {
@@ -552,18 +582,31 @@
             document.getElementById('newProjectMedia').value = '';
             document.getElementById('projectMediaPreview').innerHTML = '';
         }
-        // friend
+        // friend — now also syncs to real portfolio data layer
         document.getElementById('addFriendBtn')?.addEventListener('click', async () => {
             const name = document.getElementById('newFriendName').value;
             const desc = document.getElementById('newFriendDesc').value;
-            const emoji = document.getElementById('newFriendEmoji').value || '🌸';
+            const emoji = document.getElementById('newFriendEmoji').value || '';
             const file = document.getElementById('newFriendPfp').files[0];
             let pfpBase64 = "";
             if(file) pfpBase64 = await fileToBase64(file);
             if(!name) return;
+            // Sync to real portfolio data layer
+            const friend = { name, desc, emoji, pfpUrl: pfpBase64 };
+            if (typeof addFriend === 'function') addFriend(friend);
+            if (typeof saveFriendToFirebase === 'function') saveFriendToFirebase(friend);
+            // Also keep local admin store for display
             store.friends.push({ id: uid(), name, desc, emoji, pfp: pfpBase64 });
             saveData(); renderFriends(); clearFriendForm();
+            alert(`✨ ${name} added to portfolio friends!`);
         });
+        // delete friend — also remove from real data
+        function deleteFriendFromRealData(id) {
+            const friend = store.friends.find(f => f.id === id);
+            if (friend && typeof deleteFriendFromFirebase === 'function') {
+                deleteFriendFromFirebase(friend.fbKey || friend.id);
+            }
+        }
         function clearFriendForm() {
             document.getElementById('newFriendName').value = '';
             document.getElementById('newFriendDesc').value = '';
@@ -571,38 +614,96 @@
             document.getElementById('newFriendPfp').value = '';
             document.getElementById('friendPfpPreview').innerHTML = '';
         }
-        // song
+        // song — sync to real portfolio playlist
         document.getElementById('addSongBtn')?.addEventListener('click', () => {
             const song = document.getElementById('newSongName').value;
             const artist = document.getElementById('newArtistName').value;
             const emoji = document.getElementById('newSongEmoji').value || '🎵';
             if(!song || !artist) return;
+            // Sync to real portfolio data
+            const newSong = { song, artist, emoji };
+            if (typeof playlistData !== 'undefined') {
+                playlistData.push(newSong);
+                if (typeof savePlaylist === 'function') savePlaylist();
+            }
+            if (typeof savePlaylistToFirebase === 'function') savePlaylistToFirebase(newSong);
+            // Also keep local admin store
             store.playlist.push({ id: uid(), song, artist, emoji });
             saveData(); renderPlaylist(); 
             document.getElementById('newSongName').value = ''; document.getElementById('newArtistName').value = ''; document.getElementById('newSongEmoji').value = '';
+            alert(`🎵 ${song} by ${artist} added to portfolio playlist!`);
         });
-        // anime
+        // anime — sync to real portfolio anime list (uploads file to server)
         document.getElementById('addAnimeBtn')?.addEventListener('click', async () => {
             const name = document.getElementById('newAnimeName').value;
             const file = document.getElementById('newAnimeImage').files[0];
-            let imageBase64 = "";
-            if(file) imageBase64 = await fileToBase64(file);
             if(!name) return;
-            store.animeList.push({ id: uid(), name, image: imageBase64 });
+            let imageUrl = '';
+            // Upload file to server if present
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('type', 'anime');
+                    const resp = await fetch('/api/upload', { method: 'POST', body: formData });
+                    const result = await resp.json();
+                    if (result.success) imageUrl = result.url;
+                } catch (e) {
+                    console.warn('Upload failed, falling back to base64', e);
+                    const base64 = await fileToBase64(file);
+                    imageUrl = base64;
+                }
+            }
+            // Sync to real portfolio data with imageUrl
+            const animeObj = { name: name, imageUrl: imageUrl || '' };
+            if (typeof animeData !== 'undefined') {
+                animeData.push(animeObj);
+                if (typeof saveAnime === 'function') saveAnime();
+            }
+            if (typeof saveAnimeToFirebase === 'function') saveAnimeToFirebase(name, imageUrl);
+            // Also keep local admin store
+            store.animeList.push({ id: uid(), name, image: imageUrl });
             saveData(); renderAnime(); 
             document.getElementById('newAnimeName').value = ''; document.getElementById('newAnimeImage').value = ''; document.getElementById('animeImagePreview').innerHTML = '';
+            alert(`📺 ${name} added to portfolio anime list!`);
         });
-        // journal entry
+        // journal entry — sync to real portfolio journal (uploads image to server)
         document.getElementById('addAdminJournalBtn')?.addEventListener('click', async () => {
             const title = document.getElementById('adminJournalTitle').value;
             const content = document.getElementById('adminJournalDesc').value;
             const file = document.getElementById('adminJournalImage').files[0];
-            let imgBase64 = "";
-            if(file) imgBase64 = await fileToBase64(file);
             if(!title || !content) return;
-            store.journalEntries.push({ id: uid(), title, content, image: imgBase64 });
+            let imageUrl = '';
+            // Upload file to server if present
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('type', 'journal-image');
+                    const resp = await fetch('/api/upload', { method: 'POST', body: formData });
+                    const result = await resp.json();
+                    if (result.success) imageUrl = result.url;
+                } catch (e) {
+                    console.warn('Upload failed, falling back to base64', e);
+                    const base64 = await fileToBase64(file);
+                    imageUrl = base64;
+                }
+            }
+            // Sync to real portfolio journal
+            if (typeof addJournalEntry === 'function') {
+                addJournalEntry(title, content, imageUrl);
+            } else {
+                const stored = localStorage.getItem('portfolio_journal');
+                const entries = stored ? JSON.parse(stored) : [];
+                entries.push({ title, content, image: imageUrl, date: new Date().toISOString() });
+                localStorage.setItem('portfolio_journal', JSON.stringify(entries));
+            }
+            if (typeof saveAdminJournalEntryToFirebase === 'function') saveAdminJournalEntryToFirebase(title, content, imageUrl);
+            // Also keep local admin store
+            store.journalEntries.push({ id: uid(), title, content, image: imageUrl });
             saveData(); renderJournalAdmin(); 
             document.getElementById('adminJournalTitle').value = ''; document.getElementById('adminJournalDesc').value = ''; document.getElementById('adminJournalImage').value = ''; document.getElementById('adminJournalImagePreview').innerHTML = '';
+            alert(`📝 "${title}" added to portfolio journal!`);
         });
 
         // Delete listeners using event delegation
@@ -611,8 +712,62 @@
             if(!delBtn) return;
             const type = delBtn.getAttribute('data-type');
             const id = delBtn.getAttribute('data-id');
-            if(type === 'project') { store.projects = store.projects.filter(p => p.id !== id); renderProjects(); saveData(); }
-            if(type === 'friend') { store.friends = store.friends.filter(f => f.id !== id); renderFriends(); saveData(); }
+            if(type === 'project') { 
+                store.projects = store.projects.filter(p => p.id !== id); 
+                renderProjects(); saveData(); 
+            }
+            if(type === 'friend') { 
+                const friend = store.friends.find(f => f.id === id);
+                store.friends = store.friends.filter(f => f.id !== id); 
+                renderFriends(); saveData(); 
+                // Also remove from real portfolio
+                if (friend && typeof friendsData !== 'undefined') {
+                    const idx = friendsData.findIndex(f => f.name === friend.name);
+                    if (idx !== -1) {
+                        const removed = friendsData.splice(idx, 1);
+                        if (typeof saveFriends === 'function') saveFriends();
+                        if (removed[0] && removed[0].fbKey && typeof deleteFriendFromFirebase === 'function') {
+                            deleteFriendFromFirebase(removed[0].fbKey);
+                        }
+                    }
+                }
+            }
+            if(type === 'playlist') { 
+                const item = store.playlist.find(s => s.id === id);
+                store.playlist = store.playlist.filter(s => s.id !== id); 
+                saveData(); renderPlaylist();
+                // Remove from real portfolio
+                if (item && typeof playlistData !== 'undefined') {
+                    const idx = playlistData.findIndex(s => s.song === item.song && s.artist === item.artist);
+                    if (idx !== -1) {
+                        const removed = playlistData.splice(idx, 1);
+                        if (typeof savePlaylist === 'function') savePlaylist();
+                        if (removed[0] && removed[0].fbKey && typeof deletePlaylistFromFirebase === 'function') {
+                            deletePlaylistFromFirebase(removed[0].fbKey);
+                        }
+                    }
+                }
+            }
+            if(type === 'anime') { 
+                const item = store.animeList.find(a => a.id === id);
+                store.animeList = store.animeList.filter(a => a.id !== id); 
+                saveData(); renderAnime();
+                // Remove from real portfolio
+                if (item && typeof animeData !== 'undefined') {
+                    const idx = animeData.findIndex(a => a === item.name || (typeof a === 'object' && a.name === item.name));
+                    if (idx !== -1) {
+                        const removed = animeData.splice(idx, 1);
+                        if (typeof saveAnime === 'function') saveAnime();
+                        if (removed[0] && removed[0].fbKey && typeof deleteAnimeFromFirebase === 'function') {
+                            deleteAnimeFromFirebase(removed[0].fbKey);
+                        }
+                    }
+                }
+            }
+            if(type === 'journal') { 
+                store.journalEntries = store.journalEntries.filter(j => j.id !== id); 
+                saveData(); renderJournalAdmin();
+            }
             if(type === 'playlist') { store.playlist = store.playlist.filter(s => s.id !== id); renderPlaylist(); saveData(); }
             if(type === 'anime') { store.animeList = store.animeList.filter(a => a.id !== id); renderAnime(); saveData(); }
             if(type === 'journal') { store.journalEntries = store.journalEntries.filter(j => j.id !== id); renderJournalAdmin(); saveData(); }
@@ -683,5 +838,120 @@
         loadData(); renderAll();
     })();
 </script>
+    <!-- Firebase Debug Panel -->
+    <div style="position:fixed; bottom:10px; right:10px; z-index:9999; background:#fff; border:2px solid #333; border-radius:12px; padding:8px 10px; font-family:sans-serif; font-size:12px; max-width:320px; box-shadow:4px 4px 0 #2c2c2c;">
+        <div style="font-weight:700; margin-bottom:4px; font-size:11px;">🔥 FIREBASE DEBUG</div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            <button onclick="fbCheckData()" style="padding:3px 8px; border-radius:6px; border:1px solid #999; cursor:pointer; font-size:10px;">📋 check data</button>
+            <button onclick="fbWriteAnime()" style="padding:3px 8px; border-radius:6px; border:1px solid #999; cursor:pointer; font-size:10px;">🎬 +test anime</button>
+            <button onclick="fbWriteJournal()" style="padding:3px 8px; border-radius:6px; border:1px solid #999; cursor:pointer; font-size:10px;">📝 +test journal</button>
+            <button onclick="fbAnimeLoadCheck()" style="padding:3px 8px; border-radius:6px; border:1px solid #999; cursor:pointer; font-size:10px;">🔄 re-render anime</button>
+            <button onclick="fbJournalLoadCheck()" style="padding:3px 8px; border-radius:6px; border:1px solid #999; cursor:pointer; font-size:10px;">🔄 re-render journal</button>
+            <button onclick="fbClearLocal('anime')" style="padding:3px 8px; border-radius:6px; border:1px solid #d46060; cursor:pointer; font-size:10px;">🗑️ clear local anime</button>
+            <button onclick="fbClearLocal('journal')" style="padding:3px 8px; border-radius:6px; border:1px solid #d46060; cursor:pointer; font-size:10px;">🗑️ clear local journal</button>
+        </div>
+        <div id="fbDebugOutput" style="margin-top:4px; max-height:150px; overflow-y:auto; background:#f5f5f5; border-radius:6px; padding:4px 6px; font-size:10px; color:#333;"></div>
+    </div>
+    <script>
+    // Firebase debug panel functions
+    function fbLog(msg) {
+        const el = document.getElementById('fbDebugOutput');
+        if (el) el.innerHTML = (el.innerHTML ? el.innerHTML + '<br>' : '') + msg;
+        console.log('[FB DEBUG] ' + msg.replace(/<[^>]+>/g, ''));
+    }
+    function fbClear() {
+        document.getElementById('fbDebugOutput').innerHTML = '';
+    }
+
+    function fbCheckData() {
+        fbClear();
+        if (!window.fbDb || !window.fbRef || !window.fbOnValue) {
+            fbLog('❌ Firebase not available');
+            return;
+        }
+        const paths = [
+            'portfolio/projects', 'portfolio/friends',
+            'portfolio/playlist', 'portfolio/anime', 'portfolio/journal'
+        ];
+        let count = 0;
+        paths.forEach(path => {
+            const ref = window.fbRef(window.fbDb, path);
+            window.fbOnValue(ref, (snap) => {
+                const val = snap.val();
+                if (val && Array.isArray(val)) {
+                    fbLog(`📁 ${path}: <b>${val.length} items</b>`);
+                    val.forEach((item, i) => {
+                        if (typeof item === 'object') {
+                            const keys = Object.keys(item).join(',');
+                            const hasImg = item.imageUrl ? ' ✅ has image' : '';
+                            fbLog(`  [${i}] {${keys}}${hasImg}`);
+                        } else {
+                            fbLog(`  [${i}] "${String(item).substring(0,40)}"`);
+                        }
+                    });
+                } else {
+                    fbLog(`📁 ${path}: <b>EMPTY</b>`);
+                }
+                count++;
+            }, { onlyOnce: true });
+        });
+    }
+
+    function fbWriteAnime() {
+        fbClear();
+        if (typeof saveAnimeToFirebase === 'function') {
+            saveAnimeToFirebase('🔥 Test '+new Date().toLocaleTimeString(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+            fbLog('✅ Test anime written to Firebase!');
+            fbLog('Refresh homepage to check');
+        } else {
+            fbLog('❌ saveAnimeToFirebase not available');
+        }
+    }
+
+    function fbWriteJournal() {
+        fbClear();
+        if (typeof saveAdminJournalEntryToFirebase === 'function') {
+            saveAdminJournalEntryToFirebase('Test '+new Date().toLocaleTimeString(), 'This is a test entry', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+            fbLog('✅ Test journal written to Firebase!');
+            fbLog('Refresh homepage to check');
+        } else {
+            fbLog('❌ saveAdminJournalEntryToFirebase not available');
+        }
+    }
+
+    function fbAnimeLoadCheck() {
+        fbClear();
+        fbLog('animeData has ' + (typeof animeData !== 'undefined' ? animeData.length + ' items' : 'UNDEFINED'));
+        if (typeof animeData !== 'undefined') {
+            animeData.forEach((a, i) => {
+                const name = typeof a === 'object' ? a.name : a;
+                const img = typeof a === 'object' ? (a.imageUrl ? 'has image' : 'NO IMAGE') : 'string (no img)';
+                fbLog(`  [${i}] "${name}" — ${img}`);
+            });
+        }
+        if (typeof renderAnime === 'function') { renderAnime(); fbLog('✅ Re-rendered anime!'); }
+    }
+
+    function fbJournalLoadCheck() {
+        fbClear();
+        fbLog('journalEntries has ' + (typeof journalEntries !== 'undefined' ? journalEntries.length + ' items' : 'UNDEFINED'));
+        if (typeof journalEntries !== 'undefined') {
+            journalEntries.forEach((e, i) => {
+                fbLog(`  [${i}] "${e.text || e.title || '?'}" — img: ${e.imageUrl ? 'yes' : 'no'}, media: ${e.mediaUrl ? 'yes' : 'no'}`);
+            });
+        }
+        if (typeof renderJournalEntries === 'function') { renderJournalEntries(); fbLog('✅ Re-rendered journal!'); }
+    }
+
+    function fbClearLocal(type) {
+        if (type === 'anime') {
+            localStorage.removeItem('portfolio_anime');
+            fbLog('🗑️ localStorage portfolio_anime cleared');
+        } else if (type === 'journal') {
+            localStorage.removeItem('portfolio_journal');
+            fbLog('🗑️ localStorage portfolio_journal cleared');
+        }
+    }
+    </script>
 </body>
 </html>

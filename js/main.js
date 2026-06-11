@@ -49,7 +49,7 @@ function renderFriends() {
     container.innerHTML = friendsData.map(f => {
         const avatarHtml = f.pfpUrl
             ? `<img class="friend-avatar friend-avatar-img" src="${f.pfpUrl}" alt="${escapeHtml(f.name)}" loading="lazy">`
-            : `<div class="friend-avatar">${f.emoji || '🌸'}</div>`;
+            : `<div class="friend-avatar">${f.emoji || f.name.charAt(0).toUpperCase() || '🌸'}</div>`;
         return `
         <div class="friend-card" data-friend-id="${f.id}">
             ${avatarHtml}
